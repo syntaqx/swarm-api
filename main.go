@@ -26,9 +26,9 @@ func main() {
 	// We don't actually care about the cli version at all, use docker client.
 	app.Version(cli.ClientVersion())
 
-	server := app.Command("server", "Run the API server.")
-	host := server.Flag("host", "listening host").Envar("HOST").Default("0.0.0.0").String()
-	port := server.Flag("port", "listening port").Envar("PORT").Default("8080").String()
+	server := app.Command("serve", "Start the API server.").Alias("server")
+	host := server.Flag("host", "http host interface").Envar("HOST").Default("localhost").String()
+	port := server.Flag("port", "http listening port").Envar("PORT").Default("8080").String()
 
 	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
 	case server.FullCommand():
