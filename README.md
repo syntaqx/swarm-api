@@ -1,6 +1,7 @@
 # Swarm API
 
 [![CircleCI](https://circleci.com/gh/syntaqx/swarm-api.svg?style=svg)](https://circleci.com/gh/syntaqx/swarm-api)
+![GitHub release](https://img.shields.io/github/release/syntaqx/swarm-api.svg)
 
 A dead simple REST API built to solve provisoner configuration issues when
 creating a Docker Swarm with [Terraform][].
