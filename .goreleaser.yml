@@ -19,7 +19,7 @@ brew:
     name: homebrew-tap
   folder: Formula
   homepage: https://github.com/syntaqx/swarm-api
-  description: swarm-api is a simple HTTP server to communicate with Docker Swarm
+  description: swarm-api is a dead simple REST API for Docker Swarm
   test: |
     system "#{bin}/swarm-api --version"
 checksum:
