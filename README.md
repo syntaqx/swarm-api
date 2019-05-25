@@ -1,4 +1,4 @@
-# Swarm API
+# Docker Swarm REST API
 
 [![CircleCI](https://circleci.com/gh/syntaqx/swarm-api.svg?style=svg)](https://circleci.com/gh/syntaqx/swarm-api)
 ![GitHub release](https://img.shields.io/github/release/syntaqx/swarm-api.svg)
