@@ -1,5 +1,7 @@
 # Swarm API
 
+[![CircleCI](https://circleci.com/gh/syntaqx/swarm-api.svg?style=svg)](https://circleci.com/gh/syntaqx/swarm-api)
+
 You know what sucks?
 
 ```sh

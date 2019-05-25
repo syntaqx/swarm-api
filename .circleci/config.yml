@@ -7,6 +7,14 @@ jobs:
       - checkout
       - run: go mod download
       - run: go test -v ./...
+  lint:
+    docker:
+      - image: golangci/golangci-lint
+    steps:
+      - checkout
+      - run:
+          name: run
+          command: golangci-lint run || true
   release:
     docker:
       - image: circleci/golang:1.12
@@ -17,10 +25,12 @@ workflows:
   version: 2
   on_commit:
     jobs:
+      - lint
       - test
   release:
     jobs:
       - release:
+          context: github-repo
           filters:
             branches:
               ignore: /.*/
