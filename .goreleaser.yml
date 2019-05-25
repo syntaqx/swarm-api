@@ -5,13 +5,23 @@ before:
 builds:
 - env:
   - CGO_ENABLED=0
+  goos:
+  - windows
+  - darwin
+  - linux
 archives:
-- replacements:
-    darwin: Darwin
-    linux: Linux
-    windows: Windows
-    386: i386
-    amd64: x86_64
+- format_overrides:
+    - goos: windows
+      format: zip
+brew:
+  github:
+    owner: syntaqx
+    name: homebrew-tap
+  folder: Formula
+  homepage: https://github.com/syntaqx/swarm-api
+  description: swarm-api is a simple HTTP server to communicate with Docker Swarm
+  test: |
+    system "#{bin}/swarm-api --version"
 checksum:
   name_template: 'checksums.txt'
 snapshot:

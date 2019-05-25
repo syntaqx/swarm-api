@@ -4,6 +4,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/alecthomas/kingpin"
@@ -14,16 +15,28 @@ import (
 )
 
 func main() {
-	host := kingpin.Flag("host", "listening host").Envar("HOST").Default("0.0.0.0").String()
-	port := kingpin.Flag("port", "listening port").Envar("PORT").Default("8080").String()
-	kingpin.Parse()
-
 	// Create a docker client from the environment configured docker host.
 	cli, err := client.NewClientWithOpts(client.FromEnv)
 	if err != nil {
 		panic(err)
 	}
 
+	app := kingpin.New("swarm-api", "A simple HTTP server to communicate with Docker Swarm")
+
+	// We don't actually care about the cli version at all, use docker client.
+	app.Version(cli.ClientVersion())
+
+	server := app.Command("server", "Run the API server.")
+	host := server.Flag("host", "listening host").Envar("HOST").Default("0.0.0.0").String()
+	port := server.Flag("port", "listening port").Envar("PORT").Default("8080").String()
+
+	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
+	case server.FullCommand():
+		StartAPIServer(cli, net.JoinHostPort(*host, *port))
+	}
+}
+
+func StartAPIServer(cli *client.Client, listenAddr string) {
 	// Initialize http routing muxer
 	r := chi.NewRouter()
 
@@ -63,7 +76,7 @@ func main() {
 	})
 
 	httpServer := &http.Server{
-		Addr:    net.JoinHostPort(*host, *port),
+		Addr:    listenAddr,
 		Handler: r,
 	}
 

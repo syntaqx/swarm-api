@@ -2,6 +2,8 @@
 
 [![CircleCI](https://circleci.com/gh/syntaqx/swarm-api.svg?style=svg)](https://circleci.com/gh/syntaqx/swarm-api)
 
+> A simple HTTP server to communicate with Docker Swarm
+
 You know what sucks?
 
 ```sh
