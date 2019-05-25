@@ -39,24 +39,20 @@ func main() {
 	r.Use(middleware.Timeout(60 * time.Second))
 
 	// Handler method to retrieve a swarm join token from the docker client.
-	r.Get("/swarm/token/{type}", func(w http.ResponseWriter, r *http.Request) {
-		tokenType := chi.URLParam(r, "type")
-		if tokenType == "" {
-			http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+	r.Get("/swarm/token/{tokenType:(manager|worker)}", func(w http.ResponseWriter, r *http.Request) {
+		swarm, err := cli.SwarmInspect(r.Context())
+		if err != nil {
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			return
 		}
 
-		swarm, err := cli.SwarmInspect(r.Context())
-		if err != nil {
-			panic(err)
-		}
-
 		var token string
-		if tokenType == "manager" {
+		switch chi.URLParam(r, "tokenType") {
+		case "manager":
 			token = swarm.JoinTokens.Manager
-		} else if tokenType == "worker" {
+		case "worker":
 			token = swarm.JoinTokens.Worker
-		} else {
+		default:
 			http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 			return
 		}
