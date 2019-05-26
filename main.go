@@ -22,13 +22,14 @@ func main() {
 	}
 
 	app := kingpin.New("swarm-api", "A simple HTTP server to communicate with Docker Swarm")
+	host := app.Flag("host", "http host interface").Envar("HOST").Default("localhost").String()
+	port := app.Flag("port", "http listening port").Envar("PORT").Default("8080").String()
 
-	// We don't actually care about the cli version at all, use docker client.
+	// We don't actually care about the cli version at all, just output docker.
 	app.Version(cli.ClientVersion())
 
+	// Serve command cause why not!
 	server := app.Command("serve", "Start the API server.").Alias("server")
-	host := server.Flag("host", "http host interface").Envar("HOST").Default("localhost").String()
-	port := server.Flag("port", "http listening port").Envar("PORT").Default("8080").String()
 
 	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
 	case server.FullCommand():
