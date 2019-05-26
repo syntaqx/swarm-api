@@ -17,9 +17,11 @@ jobs:
           command: golangci-lint run || true
   release:
     docker:
-      - image: cibuilds/snapcraft:stable
+      - image: circleci/golang:1.12
     steps:
       - checkout
+      - run: sudo apt install -y snapd
+      - run: sudo snap install snapcraft --classic
       - run: |
           echo $SNAPCRAFT_LOGIN_FILE | base64 --decode --ignore-garbage > snap.login
           snapcraft login --with snap.login
