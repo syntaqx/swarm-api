@@ -10,6 +10,21 @@ creating a Docker Swarm with [Terraform][].
 
 ## Installation
 
+### Snapcraft
+
+```sh
+snap install swarm-api
+```
+
+### Homebrew on macOS
+
+If you are using [Homebrew][] on macOS, you can install the `swarm-api` with the
+following command:
+
+```sh
+brew install syntaqx/tap/swarm-api
+```
+
 ### Download the binary
 
 Quickly download install the latest release:
@@ -20,15 +35,6 @@ curl -sfL https://install.goreleaser.com/github.com/syntaqx/swarm-api.sh | sh
 
 Or manually download the [latest release binary][releases] for your
 system/architecture and install it into your `$PATH`
-
-### Homebrew on macOS
-
-If you are using [Homebrew][] on macOS, you can install the `swarm-api` with the
-following command:
-
-```sh
-brew install syntaqx/tap/swarm-api
-```
 
 ## Usage
 
