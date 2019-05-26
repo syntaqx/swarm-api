@@ -21,9 +21,6 @@ jobs:
     steps:
       - checkout
       - run: |
-          sudo apt install -y snapd
-          sudo snap install snapcraft --classic
-      - run: |
           echo $SNAPCRAFT_LOGIN_FILE | base64 --decode --ignore-garbage > snap.login
           snapcraft login --with snap.login
       - run: curl -sL https://git.io/goreleaser | bash
