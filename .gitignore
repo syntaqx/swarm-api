@@ -24,4 +24,5 @@ vendor/
 dist/
 
 # Secrets
+.snapcraft/
 snap.login

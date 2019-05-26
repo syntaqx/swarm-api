@@ -1,5 +1,6 @@
 version: 2
 jobs:
+
   test:
     docker:
       - image: circleci/golang:1.12
@@ -7,6 +8,7 @@ jobs:
       - checkout
       - run: go mod download
       - run: go test -v ./...
+
   lint:
     docker:
       - image: golangci/golangci-lint
@@ -15,17 +17,32 @@ jobs:
       - run:
           name: run
           command: golangci-lint run || true
+
   release:
     docker:
-      - image: circleci/golang:1.12
+      - image: cibuilds/snapcraft
     steps:
       - checkout
-      - run: sudo apt install -y snapd
-      - run: sudo snap install snapcraft --classic
-      - run: |
-          echo $SNAPCRAFT_LOGIN_FILE | base64 --decode --ignore-garbage > snap.login
-          snapcraft login --with snap.login
-      - run: curl -sL https://git.io/goreleaser | bash
+      - run:
+          name: install go
+          command: |
+            export goversion="go1.12.5"
+            cd /tmp && wget https://dl.google.com/go/$goversion.linux-amd64.tar.gz
+            tar -xvf $goversion.linux-amd64.tar.gz > /dev/null && sudo mv go /usr/local && rm $goversion.linux-amd64.tar.gz
+      - run:
+          name: validate golang install
+          command: |
+            export TEMP_PATH="/usr/local/go/bin:$PATH"
+            export PATH=$TEMP_PATH
+            go version
+      - run:
+          name: setup snap credentials
+          command: |
+            mkdir .snapcraft
+            echo $SNAPCRAFT_LOGIN_FILE | base64 --decode --ignore-garbage > .snapcraft/snapcraft.cfg
+      - run:
+          name: run goreleaser
+          command: curl -sL https://git.io/goreleaser | bash
 workflows:
   version: 2
   on_commit:
