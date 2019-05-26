@@ -17,9 +17,10 @@ jobs:
           command: golangci-lint run || true
   release:
     docker:
-      - image: snapcore/snapcraft:stable
+      - image: cibuilds/snapcraft:stable
     steps:
       - checkout
+      -
       - run: |
           echo $SNAPCRAFT_LOGIN_FILE | base64 --decode --ignore-garbage > snap.login
           snapcraft login --with snap.login
