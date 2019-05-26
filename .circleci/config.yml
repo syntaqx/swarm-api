@@ -17,9 +17,15 @@ jobs:
           command: golangci-lint run || true
   release:
     docker:
-      - image: circleci/golang:1.12
+      - image: snapcore/snapcraft:stable
     steps:
       - checkout
+      - run: |
+          sudo apt install -y snapd
+          sudo snap install snapcraft --classic
+      - run: |
+          echo $SNAPCRAFT_LOGIN_FILE | base64 --decode --ignore-garbage > snap.login
+          snapcraft login --with snap.login
       - run: curl -sL https://git.io/goreleaser | bash
 workflows:
   version: 2
@@ -30,7 +36,7 @@ workflows:
   release:
     jobs:
       - release:
-          context: github-repo
+          context: goreleaser
           filters:
             branches:
               ignore: /.*/

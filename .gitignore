@@ -22,3 +22,6 @@ vendor/
 
 # Build artifacts
 dist/
+
+# Secrets
+snap.login

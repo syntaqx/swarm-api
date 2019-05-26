@@ -1,3 +1,5 @@
+env:
+  - GO111MODULE=on
 before:
   hooks:
     - go mod download
@@ -22,6 +24,12 @@ brew:
   description: swarm-api is a dead simple REST API for Docker Swarm
   test: |
     system "#{bin}/swarm-api --version"
+snapcraft:
+  publish: true
+  grade: stable
+  summary: A dead simple rest api for docker swarm
+  description: |
+    A dead simple REST API for Docker Swarm.
 checksum:
   name_template: 'checksums.txt'
 snapshot:
