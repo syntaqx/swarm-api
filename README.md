@@ -69,11 +69,11 @@ then able to join new nodes by simply leveraging `curl` or equivelant tool,
 specifying `worker` or `manager` as the last parameter in the example below:
 
 ```sh
-docker swarm join --token $(curl http://$SWARM_LEADER_PRIVATE_IP:8080/swarm/token/worker) $SWARM_LEADER_PUBLIC_IP
+docker swarm join --token $(curl -sfL http://$api_ipv4:8080/swarm/token/worker) $leader_ipv4
 ```
 
-You are responsible for knowing the values for `$SWARM_LEADER_PRIVATE_IP` and
-`$SWARM_LEADER_PUBLIC_IP`, which are generally available during provisioning.
+You are responsible for knowing the values for `$api_ipv4` and `$leader_ipv4`,
+which are generally available during provisioning.
 
 ## Security vulnerabilities
 
