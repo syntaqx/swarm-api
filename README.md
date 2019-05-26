@@ -46,22 +46,22 @@ join tokens while provisioning hosts.
 In practice, a DigitalOcean Droplet might start the `swarm-api` server like:
 
 ```sh
-nohup swarm-api serve --host $(curl http://169.254.169.254/metadata/v1/interfaces/private/0/ipv4/address) &
+nohup swarm-api serve --host $(curl -sfL http://169.254.169.254/metadata/v1/interfaces/private/0/ipv4/address) &
 ```
 
 This leverages DigitalOcean's [Droplet Metadata API][metadata-api] and should
 work on a Droplet that supports it.
 
 > __⚠ Important__: You should only change the listening host to a
-> private/protected network interface. This API is not protected for use on a
-> public network and doing so would be a massive security hole in your swarm.
-> Please be sure to configure the correct host.
+> private/protected network interface configured for your netwwork. This API is
+> not protected for use on a public network and doing so would be a massive
+> security hole in your swarm. Be careful.
 
 The `swarm-api` is intended to be a running alongside a docker swarm leader or
 connection configuration, configured through the environment:
 
 ```sh
-docker swarm init --advertise-addr $(curl http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
+docker swarm init --advertise-addr $(curl -sfL http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
 ```
 
 Once both the swarm is initialzied and the `swarm-api` server started, you're
