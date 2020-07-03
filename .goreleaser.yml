@@ -15,21 +15,23 @@ archives:
 - format_overrides:
     - goos: windows
       format: zip
-brew:
-  github:
-    owner: syntaqx
-    name: homebrew-tap
-  folder: Formula
-  homepage: https://github.com/syntaqx/swarm-api
-  description: swarm-api is a dead simple REST API for Docker Swarm
-  test: |
-    system "#{bin}/swarm-api --version"
-snapcraft:
-  publish: true
-  grade: stable
-  summary: A dead simple rest api for docker swarm
-  description: |
-    A dead simple REST API for Docker Swarm.
+brews:
+  -
+    github:
+      owner: syntaqx
+      name: homebrew-tap
+    folder: Formula
+    homepage: https://github.com/syntaqx/swarm-api
+    description: swarm-api is a dead simple REST API for Docker Swarm
+    test: |
+      system "#{bin}/swarm-api --version"
+snapcrafts:
+  -
+    publish: true
+    grade: stable
+    summary: A dead simple rest api for docker swarm
+    description: |
+      A dead simple REST API for Docker Swarm.
 checksum:
   name_template: 'checksums.txt'
 snapshot:
